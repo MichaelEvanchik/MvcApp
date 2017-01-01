@@ -1,0 +1,263 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="xscoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="C__EFMigrationsHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+    </Key>
+    <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="category">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="category_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="domain" Type="Byte" Nullable="false" />
+    <NavigationProperty Name="objects" Relationship="xscoreModel.categoryobject" FromRole="category" ToRole="object" />
+  </EntityType>
+  <EntityType Name="event">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="category_id" Type="Int64" Nullable="false" />
+    <Property Name="event_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="rating_level" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="object" Relationship="xscoreModel.objectevent" FromRole="event" ToRole="object" />
+    <Property Name="object_id" Type="Int64" Nullable="false" />
+  </EntityType>
+  <EntityType Name="object">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="category_id" Type="Int64" Nullable="false" />
+    <Property Name="object_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="object_identifier" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="category" Relationship="xscoreModel.categoryobject" FromRole="object" ToRole="category" />
+    <Property Name="category_id1" Type="Int64" Nullable="false" />
+    <NavigationProperty Name="events" Relationship="xscoreModel.objectevent" FromRole="object" ToRole="event" />
+  </EntityType>
+  <EntityType Name="transaction">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="category_id" Type="Int64" Nullable="false" />
+    <Property Name="sub_category_id" Type="Int64" Nullable="false" />
+    <Property Name="object_id" Type="Int64" />
+    <Property Name="event_id" Type="Int64" Nullable="false" />
+    <Property Name="score" Type="Int32" Nullable="false" />
+    <Property Name="user_id" Type="Int64" Nullable="false" />
+    <Property Name="domain" Type="Byte" Nullable="false" />
+    <Property Name="time_stamp" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="user_profile" Relationship="xscoreModel.user_profiletransaction" FromRole="transaction" ToRole="user_profile" />
+    <Property Name="user_profile_id" Type="Int64" Nullable="false" />
+    <Property Name="user_profileUserID" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="user_profile_email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="user_profile_sub_category_id" Type="Int64" Nullable="false" />
+    <Property Name="user_profile_moderator" Type="Byte" Nullable="false" />
+  </EntityType>
+  <EntityType Name="C__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+      <PropertyRef Name="Model" />
+      <PropertyRef Name="ProductVersion" />
+    </Key>
+    <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+    <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetRole">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="Name" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUserClaim">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="AspNetUserLogin">
+    <Key>
+      <PropertyRef Name="LoginProvider" />
+      <PropertyRef Name="ProviderKey" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUserRole">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="RoleId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUser">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="EmailConfirmed" />
+      <PropertyRef Name="PhoneNumberConfirmed" />
+      <PropertyRef Name="TwoFactorEnabled" />
+      <PropertyRef Name="LockoutEnabled" />
+      <PropertyRef Name="AccessFailedCount" />
+      <PropertyRef Name="UserName" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+    <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="user_profile">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="UserID" />
+      <PropertyRef Name="email" />
+      <PropertyRef Name="sub_category_id" />
+      <PropertyRef Name="moderator" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="sub_category_id" Type="Int64" Nullable="false" />
+    <Property Name="moderator" Type="Byte" Nullable="false" />
+    <NavigationProperty Name="transactions" Relationship="xscoreModel.user_profiletransaction" FromRole="user_profile" ToRole="transaction" />
+  </EntityType>
+  <EntityContainer Name="xscoreEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="C__EFMigrationsHistory" EntityType="Self.C__EFMigrationsHistory" />
+    <EntitySet Name="categories" EntityType="Self.category" />
+    <EntitySet Name="events" EntityType="Self.event" />
+    <EntitySet Name="objects" EntityType="Self.object" />
+    <EntitySet Name="transactions" EntityType="Self.transaction" />
+    <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+    <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
+    <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
+    <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
+    <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRole" />
+    <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
+    <EntitySet Name="user_profile" EntityType="Self.user_profile" />
+    <FunctionImport Name="sp_get_categories" ReturnType="Collection(xscoreModel.sp_get_categories_Result)" />
+    <FunctionImport Name="sp_get_events" ReturnType="Collection(xscoreModel.sp_get_events_Result)" />
+    <FunctionImport Name="sp_get_objects" ReturnType="Collection(xscoreModel.sp_get_objects_Result)" />
+    <FunctionImport Name="sp_get_profile_id" ReturnType="Collection(Int64)">
+      <Parameter Name="email" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_get_rating_level" ReturnType="Collection(Int32)">
+      <Parameter Name="id" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="sp_insert_transactions">
+      <Parameter Name="user_id" Mode="In" Type="Int64" />
+      <Parameter Name="category_id" Mode="In" Type="Int64" />
+      <Parameter Name="sub_category_id" Mode="In" Type="Int64" />
+      <Parameter Name="object_id" Mode="In" Type="Int64" />
+      <Parameter Name="event_id" Mode="In" Type="Int64" />
+      <Parameter Name="score" Mode="In" Type="Int32" />
+      <Parameter Name="domain" Mode="In" Type="Byte" />
+    </FunctionImport>
+    <FunctionImport Name="sp_insert_user_profile">
+      <Parameter Name="UserId" Mode="In" Type="String" />
+      <Parameter Name="email" Mode="In" Type="String" />
+      <Parameter Name="sub_category_id" Mode="In" Type="Int64" />
+      <Parameter Name="moderator" Mode="In" Type="Byte" />
+    </FunctionImport>
+    <FunctionImport Name="sp_report_get_object_overall" ReturnType="Collection(xscoreModel.sp_report_get_object_overall_Result)" />
+    <AssociationSet Name="categoryobject" Association="xscoreModel.categoryobject">
+      <End Role="category" EntitySet="categories" />
+      <End Role="object" EntitySet="objects" />
+    </AssociationSet>
+    <AssociationSet Name="objectevent" Association="xscoreModel.objectevent">
+      <End Role="object" EntitySet="objects" />
+      <End Role="event" EntitySet="events" />
+    </AssociationSet>
+    <AssociationSet Name="user_profiletransaction" Association="xscoreModel.user_profiletransaction">
+      <End Role="user_profile" EntitySet="user_profile" />
+      <End Role="transaction" EntitySet="transactions" />
+    </AssociationSet>
+  </EntityContainer>
+  <ComplexType Name="sp_get_categories_Result">
+    <Property Type="Int64" Name="id" Nullable="false" />
+    <Property Type="String" Name="category_name" Nullable="false" MaxLength="50" />
+    <Property Type="Byte" Name="domain" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sp_get_events_Result">
+    <Property Type="Int64" Name="id" Nullable="false" />
+    <Property Type="Int64" Name="category_id" Nullable="false" />
+    <Property Type="String" Name="event_name" Nullable="false" MaxLength="30" />
+    <Property Type="Int32" Name="rating_level" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sp_get_objects_Result">
+    <Property Type="Int64" Name="id" Nullable="false" />
+    <Property Type="Int64" Name="category_id" Nullable="false" />
+    <Property Type="String" Name="object_name" Nullable="false" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="sp_report_get_object_overall_Result">
+    <Property Type="String" Name="object_name" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="score" Nullable="true" />
+  </ComplexType>
+  <Association Name="categoryobject">
+    <End Type="xscoreModel.category" Role="category" Multiplicity="1" />
+    <End Type="xscoreModel.object" Role="object" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="category">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="object">
+        <PropertyRef Name="category_id1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="objectevent">
+    <End Type="xscoreModel.object" Role="object" Multiplicity="1" />
+    <End Type="xscoreModel.event" Role="event" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="object">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="event">
+        <PropertyRef Name="object_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="user_profiletransaction">
+    <End Type="xscoreModel.user_profile" Role="user_profile" Multiplicity="1" />
+    <End Type="xscoreModel.transaction" Role="transaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="user_profile">
+        <PropertyRef Name="id" />
+        <PropertyRef Name="UserID" />
+        <PropertyRef Name="email" />
+        <PropertyRef Name="sub_category_id" />
+        <PropertyRef Name="moderator" />
+      </Principal>
+      <Dependent Role="transaction">
+        <PropertyRef Name="user_profile_id" />
+        <PropertyRef Name="user_profileUserID" />
+        <PropertyRef Name="user_profile_email" />
+        <PropertyRef Name="user_profile_sub_category_id" />
+        <PropertyRef Name="user_profile_moderator" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
