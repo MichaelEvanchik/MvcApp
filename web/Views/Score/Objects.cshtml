@@ -1,0 +1,59 @@
+﻿@model web.Models.EnterViewModel
+
+@{
+    ViewBag.Title = "Objects";
+}
+
+<h2>Enter Data</h2>
+
+
+    @using (Ajax.BeginForm("Objects", "Score", new AjaxOptions { HttpMethod = "POST" }))
+    {
+        @Html.AntiForgeryToken();
+        <div class="row">
+                <div class="col-lg-12">
+                Object Name
+                @Html.DropDownList("Objects", Model.ObjectSelectItem,  new { @class = "form-control" })
+                or Direct ID
+                    @Html.DisplayText("Jersey")
+                    <input id="jersey_num" type="text" maxlength="2" />
+                </div>
+           
+        </div>
+
+        <div class="row">
+            Events
+            <div class="col-lg-12">
+                   @Html.DropDownList("Events", Model.EventSelectItem, new { onchange = "this.form.submit();" })
+            </div>
+        </div>
+
+
+        <div class="row">
+            Score
+            <div class="col-lg-12">
+                @Html.DropDownList("Score", Model.ScoreSelectItem)
+                <input type="hidden" name="hfield" id="h" />
+                <input type="submit" value="Enter" />
+            </div>
+
+        </div>
+
+        <script src="~/Scripts/jquery-3.1.1.js"></script>
+        <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+        <script>
+            $("form").submit(function (e) {
+                e.preventDefault();
+                alert(0);
+                h.value = 'submit';
+                //$('#hfield').val('submit');
+            });
+        </script>
+    }
+}
+
+
+
+
+
+

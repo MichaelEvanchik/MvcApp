@@ -1,0 +1,23 @@
+﻿@model IEnumerable<web.Models.categoryModel>
+
+@{
+    ViewBag.Title = "Categories";
+
+
+}
+
+<h2>View</h2>
+
+    @using (Html.BeginForm("Objects", "Score", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken();
+<div  class="col-lg-8">
+    @Html.DropDownList("listCat", Model.Select(x=>x.SelectItem) ," Categories")
+</div>
+<div class="col-lg-4">
+    <input id="Submit1" type="submit" value="Select" />
+</div>
+}
+
+
+

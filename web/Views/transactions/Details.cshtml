@@ -1,0 +1,82 @@
+﻿@model web.Models.transaction
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>transaction</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.categories_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.categories_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.sub_category_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sub_category_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.object_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.object_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.events_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.events_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.score)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.score)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.user_profile_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user_profile_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.domain)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.domain)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.time_stamp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.time_stamp)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
