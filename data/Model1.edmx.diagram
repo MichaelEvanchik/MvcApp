@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f211fd291ad943ce89f1539334c1c570" Name="Diagram1">
+        <EntityTypeShape EntityType="xscoreModel.category" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="xscoreModel.event" Width="1.5" PointX="6" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="xscoreModel.object" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="xscoreModel.sub_category" Width="1.5" PointX="3.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="xscoreModel.transaction" Width="1.5" PointX="9.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="xscoreModel.user_profile" Width="1.5" PointX="11.5" PointY="3.75" IsExpanded="true" />
+        <AssociationConnector Association="xscoreModel.categorysub_category" />
+        <AssociationConnector Association="xscoreModel.sub_categoryobject" />
+        <AssociationConnector Association="xscoreModel.objectevent" />
+        <AssociationConnector Association="xscoreModel.eventtransaction" />
+        <AssociationConnector Association="xscoreModel.user_profiletransaction" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

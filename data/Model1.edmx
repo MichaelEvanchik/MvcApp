@@ -1,0 +1,467 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="xscoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="categories">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="category_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="domain" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="events">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="category_id" Type="bigint" Nullable="false" />
+          <Property Name="event_name" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="rating_level" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="objects">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="category_id" Type="bigint" Nullable="false" />
+          <Property Name="object_name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="object_identifier" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sub_category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="parent_id" Type="bigint" Nullable="false" />
+          <Property Name="category_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="domain" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="transaction">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="category_id" Type="bigint" Nullable="false" />
+          <Property Name="sub_category_id" Type="bigint" Nullable="false" />
+          <Property Name="object_id" Type="bigint" />
+          <Property Name="event_id" Type="bigint" Nullable="false" />
+          <Property Name="score" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="bigint" Nullable="false" />
+          <Property Name="domain" Type="tinyint" Nullable="false" />
+          <Property Name="time_stamp" Type="smalldatetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'xscore.dbo.user_profile' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="user_profile">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="email" />
+            <PropertyRef Name="sub_category_id" />
+            <PropertyRef Name="moderator" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="sub_category_id" Type="bigint" Nullable="false" />
+          <Property Name="moderator" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <Function Name="sp_get_categories" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_get_events" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_get_objects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_get_profile_id" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_get_rating_level" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="sp_insert_transactions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="user_id" Type="bigint" Mode="In" />
+          <Parameter Name="category_id" Type="bigint" Mode="In" />
+          <Parameter Name="sub_category_id" Type="bigint" Mode="In" />
+          <Parameter Name="object_id" Type="bigint" Mode="In" />
+          <Parameter Name="event_id" Type="bigint" Mode="In" />
+          <Parameter Name="score" Type="int" Mode="In" />
+          <Parameter Name="domain" Type="tinyint" Mode="In" />
+        </Function>
+        <Function Name="sp_insert_user_profile" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+          <Parameter Name="email" Type="varchar" Mode="In" />
+          <Parameter Name="sub_category_id" Type="bigint" Mode="In" />
+          <Parameter Name="moderator" Type="tinyint" Mode="In" />
+        </Function>
+        <Function Name="sp_report_get_object_overall" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="xscoreModelStoreContainer">
+          <EntitySet Name="categories" EntityType="Self.categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="events" EntityType="Self.events" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="objects" EntityType="Self.objects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sub_category" EntityType="Self.sub_category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="transaction" EntityType="Self.transaction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_profile" EntityType="Self.user_profile" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [user_profile].[id] AS [id], 
+    [user_profile].[UserID] AS [UserID], 
+    [user_profile].[email] AS [email], 
+    [user_profile].[sub_category_id] AS [sub_category_id], 
+    [user_profile].[moderator] AS [moderator]
+    FROM [dbo].[user_profile] AS [user_profile]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="xscoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="category_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="domain" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="sub_category" Relationship="xscoreModel.categorysub_category" FromRole="category" ToRole="sub_category" />
+        </EntityType>
+        <EntityType Name="event">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="category_id" Type="Int64" Nullable="false" />
+          <Property Name="event_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="rating_level" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="object" Relationship="xscoreModel.objectevent" FromRole="event" ToRole="object" />
+          <Property Name="object_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="transactions" Relationship="xscoreModel.eventtransaction" FromRole="event" ToRole="transaction" />
+        </EntityType>
+        <EntityType Name="object">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="category_id" Type="Int64" Nullable="false" />
+          <Property Name="object_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="object_identifier" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="sub_category" Relationship="xscoreModel.sub_categoryobject" FromRole="object" ToRole="sub_category" />
+          <NavigationProperty Name="events" Relationship="xscoreModel.objectevent" FromRole="object" ToRole="event" />
+        </EntityType>
+        <EntityType Name="sub_category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="parent_id" Type="Int64" Nullable="false" />
+          <Property Name="category_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="domain" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="category" Relationship="xscoreModel.categorysub_category" FromRole="sub_category" ToRole="category" />
+          <Property Name="category_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="object" Relationship="xscoreModel.sub_categoryobject" FromRole="sub_category" ToRole="object" />
+        </EntityType>
+        <EntityType Name="transaction">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="category_id" Type="Int64" Nullable="false" />
+          <Property Name="sub_category_id" Type="Int64" Nullable="false" />
+          <Property Name="object_id" Type="Int64" />
+          <Property Name="event_id" Type="Int64" Nullable="false" />
+          <Property Name="score" Type="Int32" Nullable="false" />
+          <Property Name="user_id" Type="Int64" Nullable="false" />
+          <Property Name="domain" Type="Byte" Nullable="false" />
+          <Property Name="time_stamp" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="event" Relationship="xscoreModel.eventtransaction" FromRole="transaction" ToRole="event" />
+          <Property Name="event_id1" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="user_profile" Relationship="xscoreModel.user_profiletransaction" FromRole="transaction" ToRole="user_profile" />
+          <Property Name="user_profile_id" Type="Int64" Nullable="false" />
+          <Property Name="user_profileUserID" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="user_profile_email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="user_profile_sub_category_id" Type="Int64" Nullable="false" />
+          <Property Name="user_profile_moderator" Type="Byte" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user_profile">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="email" />
+            <PropertyRef Name="sub_category_id" />
+            <PropertyRef Name="moderator" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="sub_category_id" Type="Int64" Nullable="false" />
+          <Property Name="moderator" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="transactions" Relationship="xscoreModel.user_profiletransaction" FromRole="user_profile" ToRole="transaction" />
+        </EntityType>
+        <EntityContainer Name="xscoreEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="categories" EntityType="Self.category" />
+          <EntitySet Name="events" EntityType="Self.event" />
+          <EntitySet Name="objects" EntityType="Self.object" />
+          <EntitySet Name="sub_category" EntityType="Self.sub_category" />
+          <EntitySet Name="transactions" EntityType="Self.transaction" />
+          <EntitySet Name="user_profile" EntityType="Self.user_profile" />
+          <FunctionImport Name="sp_get_categories" ReturnType="Collection(xscoreModel.sp_get_categories_Result)" />
+          <FunctionImport Name="sp_get_events" ReturnType="Collection(xscoreModel.sp_get_events_Result)" />
+          <FunctionImport Name="sp_get_objects" ReturnType="Collection(xscoreModel.sp_get_objects_Result)" />
+          <FunctionImport Name="sp_get_profile_id" ReturnType="Collection(Int64)">
+            <Parameter Name="email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_get_rating_level" ReturnType="Collection(Int32)">
+            <Parameter Name="id" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="sp_insert_transactions">
+            <Parameter Name="user_id" Mode="In" Type="Int64" />
+            <Parameter Name="category_id" Mode="In" Type="Int64" />
+            <Parameter Name="sub_category_id" Mode="In" Type="Int64" />
+            <Parameter Name="object_id" Mode="In" Type="Int64" />
+            <Parameter Name="event_id" Mode="In" Type="Int64" />
+            <Parameter Name="score" Mode="In" Type="Int32" />
+            <Parameter Name="domain" Mode="In" Type="Byte" />
+          </FunctionImport>
+          <FunctionImport Name="sp_insert_user_profile">
+            <Parameter Name="UserId" Mode="In" Type="String" />
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="sub_category_id" Mode="In" Type="Int64" />
+            <Parameter Name="moderator" Mode="In" Type="Byte" />
+          </FunctionImport>
+          <FunctionImport Name="sp_report_get_object_overall" ReturnType="Collection(xscoreModel.sp_report_get_object_overall_Result)" />
+          <AssociationSet Name="categorysub_category" Association="xscoreModel.categorysub_category">
+            <End Role="category" EntitySet="categories" />
+            <End Role="sub_category" EntitySet="sub_category" />
+          </AssociationSet>
+          <AssociationSet Name="sub_categoryobject" Association="xscoreModel.sub_categoryobject">
+            <End Role="sub_category" EntitySet="sub_category" />
+            <End Role="object" EntitySet="objects" />
+          </AssociationSet>
+          <AssociationSet Name="objectevent" Association="xscoreModel.objectevent">
+            <End Role="object" EntitySet="objects" />
+            <End Role="event" EntitySet="events" />
+          </AssociationSet>
+          <AssociationSet Name="eventtransaction" Association="xscoreModel.eventtransaction">
+            <End Role="event" EntitySet="events" />
+            <End Role="transaction" EntitySet="transactions" />
+          </AssociationSet>
+          <AssociationSet Name="user_profiletransaction" Association="xscoreModel.user_profiletransaction">
+            <End Role="user_profile" EntitySet="user_profile" />
+            <End Role="transaction" EntitySet="transactions" />
+          </AssociationSet>
+        </EntityContainer>
+        <ComplexType Name="sp_get_categories_Result">
+          <Property Type="Int64" Name="id" Nullable="false" />
+          <Property Type="String" Name="category_name" Nullable="false" MaxLength="50" />
+          <Property Type="Byte" Name="domain" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_get_events_Result">
+          <Property Type="Int64" Name="id" Nullable="false" />
+          <Property Type="Int64" Name="category_id" Nullable="false" />
+          <Property Type="String" Name="event_name" Nullable="false" MaxLength="30" />
+          <Property Type="Int32" Name="rating_level" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_get_objects_Result">
+          <Property Type="Int64" Name="id" Nullable="false" />
+          <Property Type="Int64" Name="category_id" Nullable="false" />
+          <Property Type="String" Name="object_name" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="sp_report_get_object_overall_Result">
+          <Property Type="String" Name="object_name" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="score" Nullable="true" />
+        </ComplexType>
+        <Association Name="categorysub_category">
+          <End Type="xscoreModel.category" Role="category" Multiplicity="1" />
+          <End Type="xscoreModel.sub_category" Role="sub_category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sub_category">
+              <PropertyRef Name="category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="sub_categoryobject">
+          <End Type="xscoreModel.sub_category" Role="sub_category" Multiplicity="1" />
+          <End Type="xscoreModel.object" Role="object" Multiplicity="1" />
+        </Association>
+        <Association Name="objectevent">
+          <End Type="xscoreModel.object" Role="object" Multiplicity="1" />
+          <End Type="xscoreModel.event" Role="event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="object">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="event">
+              <PropertyRef Name="object_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="eventtransaction">
+          <End Type="xscoreModel.event" Role="event" Multiplicity="1" />
+          <End Type="xscoreModel.transaction" Role="transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="event">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="transaction">
+              <PropertyRef Name="event_id1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_profiletransaction">
+          <End Type="xscoreModel.user_profile" Role="user_profile" Multiplicity="1" />
+          <End Type="xscoreModel.transaction" Role="transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_profile">
+              <PropertyRef Name="id" />
+              <PropertyRef Name="UserID" />
+              <PropertyRef Name="email" />
+              <PropertyRef Name="sub_category_id" />
+              <PropertyRef Name="moderator" />
+            </Principal>
+            <Dependent Role="transaction">
+              <PropertyRef Name="user_profile_id" />
+              <PropertyRef Name="user_profileUserID" />
+              <PropertyRef Name="user_profile_email" />
+              <PropertyRef Name="user_profile_sub_category_id" />
+              <PropertyRef Name="user_profile_moderator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="xscoreModelStoreContainer" CdmEntityContainer="xscoreEntities">
+          <EntitySetMapping Name="categories">
+            <EntityTypeMapping TypeName="xscoreModel.category">
+              <MappingFragment StoreEntitySet="categories">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="category_name" ColumnName="category_name" />
+                <ScalarProperty Name="domain" ColumnName="domain" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="events">
+            <EntityTypeMapping TypeName="xscoreModel.event">
+              <MappingFragment StoreEntitySet="events">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="category_id" ColumnName="category_id" />
+                <ScalarProperty Name="event_name" ColumnName="event_name" />
+                <ScalarProperty Name="rating_level" ColumnName="rating_level" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="objects">
+            <EntityTypeMapping TypeName="xscoreModel.object">
+              <MappingFragment StoreEntitySet="objects">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="category_id" ColumnName="category_id" />
+                <ScalarProperty Name="object_name" ColumnName="object_name" />
+                <ScalarProperty Name="object_identifier" ColumnName="object_identifier" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sub_category">
+            <EntityTypeMapping TypeName="xscoreModel.sub_category">
+              <MappingFragment StoreEntitySet="sub_category">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="parent_id" ColumnName="parent_id" />
+                <ScalarProperty Name="category_name" ColumnName="category_name" />
+                <ScalarProperty Name="domain" ColumnName="domain" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="transactions">
+            <EntityTypeMapping TypeName="xscoreModel.transaction">
+              <MappingFragment StoreEntitySet="transaction">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="category_id" ColumnName="category_id" />
+                <ScalarProperty Name="sub_category_id" ColumnName="sub_category_id" />
+                <ScalarProperty Name="object_id" ColumnName="object_id" />
+                <ScalarProperty Name="event_id" ColumnName="event_id" />
+                <ScalarProperty Name="score" ColumnName="score" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="domain" ColumnName="domain" />
+                <ScalarProperty Name="time_stamp" ColumnName="time_stamp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_profile">
+            <EntityTypeMapping TypeName="xscoreModel.user_profile">
+              <MappingFragment StoreEntitySet="user_profile">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="sub_category_id" ColumnName="sub_category_id" />
+                <ScalarProperty Name="moderator" ColumnName="moderator" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_get_categories" FunctionName="xscoreModel.Store.sp_get_categories">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="xscoreModel.sp_get_categories_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="category_name" ColumnName="category_name" />
+                <ScalarProperty Name="domain" ColumnName="domain" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_get_events" FunctionName="xscoreModel.Store.sp_get_events">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="xscoreModel.sp_get_events_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="category_id" ColumnName="category_id" />
+                <ScalarProperty Name="event_name" ColumnName="event_name" />
+                <ScalarProperty Name="rating_level" ColumnName="rating_level" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_get_objects" FunctionName="xscoreModel.Store.sp_get_objects">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="xscoreModel.sp_get_objects_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="category_id" ColumnName="category_id" />
+                <ScalarProperty Name="object_name" ColumnName="object_name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_get_profile_id" FunctionName="xscoreModel.Store.sp_get_profile_id" />
+          <FunctionImportMapping FunctionImportName="sp_get_rating_level" FunctionName="xscoreModel.Store.sp_get_rating_level" />
+          <FunctionImportMapping FunctionImportName="sp_insert_transactions" FunctionName="xscoreModel.Store.sp_insert_transactions" />
+          <FunctionImportMapping FunctionImportName="sp_insert_user_profile" FunctionName="xscoreModel.Store.sp_insert_user_profile" />
+          <FunctionImportMapping FunctionImportName="sp_report_get_object_overall" FunctionName="xscoreModel.Store.sp_report_get_object_overall">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="xscoreModel.sp_report_get_object_overall_Result">
+                <ScalarProperty Name="object_name" ColumnName="object_name" />
+                <ScalarProperty Name="score" ColumnName="score" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
